@@ -2,11 +2,15 @@
   <div class="container">
     <global-header :user="currentUser"></global-header>
     <column-list :list="list"></column-list>
-
+    {{ emailVal }}
     <form>
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <validate-input :rules="emailRules"></validate-input>
+        <validate-input
+          place-holder="hello"
+          v-model="emailVal"
+          :rules="emailRules"
+        ></validate-input>
         <div class="form-text" v-if="emailRef.error">
           {{ emailRef.message }}
         </div>
@@ -24,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, ref } from "vue";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ColumnList, { ColumnProps } from "./components/ColumnList.vue";
 import GlobalHeader, { UserProps } from "./components/GlobalHeader.vue";
@@ -71,6 +75,7 @@ export default defineComponent({
     ValidateInput
   },
   setup() {
+    const emailVal = ref("123@qq.com");
     const emailRules: RulesProp = [
       { type: "required", message: "电子邮箱不能为空" },
       { type: "email", message: "邮箱格式不正确" }
@@ -95,7 +100,8 @@ export default defineComponent({
       currentUser,
       emailRef,
       validateEmail,
-      emailRules
+      emailRules,
+      emailVal
     };
   }
 });
