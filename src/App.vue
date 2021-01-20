@@ -1,112 +1,40 @@
 <template>
   <div class="container">
     <global-header :user="currentUser"></global-header>
-    <column-list :list="list"></column-list>
-    {{ emailVal }}
-    <validate-form @form-submit="onFormSubmit">
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <validate-input
-          place-holder="hello"
-          v-model="emailVal"
-          :rules="emailRules"
-          ref="inputRef"
-        ></validate-input>
-        <div class="form-text" v-if="emailRef.error">
-          {{ emailRef.message }}
-        </div>
-      </div>
-      <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input
-          type="password"
-          class="form-control"
-          id="exampleInputPassword1"
-        />
-      </div>
-      <template #submit>
-        <span class="btn btn-danger">submit</span>
-      </template>
-    </validate-form>
+    <router-view></router-view>
+    <footer class="text-center py-4 text-secondary bg-light mt-6">
+      <small>
+        <ul class="list-inline mb-0">
+          <li class="list-inline-item">© 2020 者也专栏</li>
+          <li class="list-inline-item">课程</li>
+          <li class="list-inline-item">文档</li>
+          <li class="list-inline-item">联系</li>
+          <li class="list-inline-item">更多</li>
+        </ul>
+      </small>
+    </footer>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from "vue";
+import { defineComponent } from "vue";
 import "bootstrap/dist/css/bootstrap.min.css";
-import ColumnList, { ColumnProps } from "./components/ColumnList.vue";
 import GlobalHeader, { UserProps } from "./components/GlobalHeader.vue";
-import ValidateInput, { RulesProp } from "./components/ValidateInput.vue";
-import ValidateForm from "./components/ValidateForm.vue";
 const currentUser: UserProps = {
-  isLogin: true,
+  isLogin: false,
   name: "viking"
 };
-const testData: ColumnProps[] = [
-  {
-    id: 1,
-    title: "test1的专栏",
-    description: "这是的test1专栏，有一段非常有意思的简介，可以更新一下欧",
-    avatar:
-      "http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100"
-  },
-  {
-    id: 2,
-    title: "test2的专栏",
-    description: "这是的test2专栏，有一段非常有意思的简介，可以更新一下欧",
-    avatar:
-      "http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100"
-  },
-  {
-    id: 3,
-    title: "test1的专栏",
-    description: "这是的test1专栏，有一段非常有意思的简介，可以更新一下欧"
-    // avatar:
-    //   "http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100"
-  },
-  {
-    id: 4,
-    title: "test2的专栏",
-    description: "这是的test2专栏，有一段非常有意思的简介，可以更新一下欧",
-    avatar:
-      "http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100"
-  }
-];
 export default defineComponent({
   name: "App",
   components: {
-    ColumnList,
-    GlobalHeader,
-    ValidateInput,
-    ValidateForm
+    GlobalHeader
   },
   setup() {
-    const inputRef = ref<any>();
-    const emailVal = ref("123@qq.com");
-    const emailRules: RulesProp = [
-      { type: "required", message: "电子邮箱不能为空" },
-      { type: "email", message: "邮箱格式不正确" }
-    ];
-    const emailRef = reactive({
-      val: "",
-      error: false,
-      message: ""
-    });
-    const onFormSubmit = (result: boolean) => {
-      console.log("11222");
-      console.log(result);
-    };
     return {
-      list: testData,
-      currentUser,
-      emailRef,
-      emailRules,
-      emailVal,
-      onFormSubmit,
-      inputRef
+      currentUser
     };
   }
 });
 </script>
 
-<style lang="scss"></style>
+<style></style>

@@ -1,9 +1,11 @@
 <template>
   <nav class="navbar navbar-dark bg-primary justify-content-between mb-4 px-4">
-    <a class="navbar-brand" href="#">专栏</a>
+    <router-link to="/" class="navbar-brand">专栏</router-link>
     <ul v-if="!user.isLogin">
       <li class="list-inline-item">
-        <a href="#" class="btn btn-outline-light my-2">登陆</a>
+        <router-link to="/login" class="btn btn-outline-light my-2"
+          >登陆</router-link
+        >
       </li>
       <li class="list-inline-item">
         <a href="#" class="btn btn-outline-light my-2">注册</a>
