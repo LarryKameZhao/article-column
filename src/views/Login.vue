@@ -28,6 +28,9 @@
 import { defineComponent, ref } from "vue";
 import ValidateInput, { RulesProp } from "../components/ValidateInput.vue";
 import ValidateForm from "../components/ValidateForm.vue";
+import { useStore } from "vuex";
+import { GlobalDataInterface } from "@/store";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "Login",
@@ -36,6 +39,8 @@ export default defineComponent({
     ValidateForm
   },
   setup() {
+    const store = useStore<GlobalDataInterface>();
+    const router = useRouter();
     const emailVal = ref("");
     const emailRules: RulesProp = [
       { type: "required", message: "电子邮箱地址不能为空" },
@@ -46,7 +51,10 @@ export default defineComponent({
       { type: "required", message: "密码不能为空" }
     ];
     const onFormSubmit: any = (result: boolean) => {
-      console.log("result", result);
+      if (result) {
+        router.push("/");
+        store.commit("login");
+      }
     };
     return {
       emailRules,
