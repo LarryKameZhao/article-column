@@ -18,7 +18,9 @@
         >
         <dropdown :title="`你好${user.name}`">
           <dropdown-item
-            ><a href="#" class="dropdown-item">新建文章</a></dropdown-item
+            ><router-link to="/create_post" class="dropdown-item"
+              >新建文章</router-link
+            ></dropdown-item
           >
           <dropdown-item :disabled="true"
             ><a href="#" class="dropdown-item">编辑资料</a></dropdown-item
@@ -33,9 +35,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
-import Dropdown from "./Dropdown.vue";
-import DropdownItem from "./DropdownItem.vue";
+import { defineComponent, PropType } from 'vue';
+import Dropdown from './Dropdown.vue';
+import DropdownItem from './DropdownItem.vue';
 export interface UserProps {
   isLogin: boolean;
   name?: string;
@@ -43,16 +45,16 @@ export interface UserProps {
 }
 export default defineComponent({
   components: { Dropdown, DropdownItem },
-  name: "GlobalHeader",
+  name: 'GlobalHeader',
   props: {
     user: {
       type: Object as PropType<UserProps>,
-      required: true
-    }
+      required: true,
+    },
   },
   setup() {
     return {};
-  }
+  },
 });
 </script>
 

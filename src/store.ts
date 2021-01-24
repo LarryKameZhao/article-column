@@ -1,9 +1,12 @@
-import { createStore } from "vuex";
-import { testData, testPosts, ColumnProps, PostProps } from "./testData";
+import { createStore } from 'vuex';
+import { testData, testPosts, ColumnProps, PostProps } from './testData';
+export { ColumnProps, PostProps } from './testData';
+
 interface UserProps {
   isLogin: boolean;
   name?: string;
   id?: number;
+  columnId?: number;
 }
 export interface GlobalDataInterface {
   columns: ColumnProps[];
@@ -15,13 +18,21 @@ const store = createStore<GlobalDataInterface>({
     columns: testData,
     posts: testPosts,
     user: {
-      isLogin: false
-    }
+      isLogin: false,
+    },
   },
   mutations: {
     login(state) {
-      state.user = { ...state.user, isLogin: true, name: "viking" };
-    }
+      state.user = {
+        ...state.user,
+        isLogin: true,
+        name: 'viking',
+        columnId: 1,
+      };
+    },
+    createPost(state, newPost) {
+      state.posts.push(newPost);
+    },
   },
   getters: {
     biggerColumnsLen(state) {
@@ -32,8 +43,8 @@ const store = createStore<GlobalDataInterface>({
     },
     getPostsByCid: state => (cid: number) => {
       return state.posts.filter(post => post.columnId === cid);
-    }
-  }
+    },
+  },
 });
 
 export default store;
