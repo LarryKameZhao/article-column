@@ -23,7 +23,6 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useRoute } from "vue-router";
-import { testData, testPosts } from "../testData";
 import PostList from "../components/PostList.vue";
 import { useStore } from "vuex";
 export default defineComponent({

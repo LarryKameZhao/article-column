@@ -18,23 +18,26 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-import ColumnList from "../components/ColumnList.vue";
-import { useStore } from "vuex";
-import { GlobalDataInterface } from "@/store";
+import { computed, defineComponent, onMounted } from 'vue';
+import ColumnList from '../components/ColumnList.vue';
+import { useStore } from 'vuex';
+import { GlobalDataInterface } from '@/store';
 export default defineComponent({
-  name: "Home",
+  name: 'Home',
   components: {
-    ColumnList
+    ColumnList,
   },
   setup() {
     const store = useStore<GlobalDataInterface>();
     const list = computed(() => store.state.columns);
+    onMounted(() => {
+      store.dispatch('fetchColumns');
+    });
     const biggerColumnLen = computed(() => store.getters.biggerColumnsLen);
     return {
       list,
-      biggerColumnLen
+      biggerColumnLen,
     };
-  }
+  },
 });
 </script>
