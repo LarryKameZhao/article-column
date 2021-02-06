@@ -11,6 +11,7 @@ axios.interceptors.request.use(config => {
     config.data = { ...config.data, icode: code };
   }
   config.params = { ...config.params, icode: code };
+  store.commit('setError', { status: false, message: '' });
   store.commit('setLoading', true);
   return config;
 });
@@ -18,7 +19,7 @@ axios.interceptors.response.use(
   config => {
     setTimeout(() => {
       store.commit('setLoading', false);
-    }, 200);
+    }, 100);
 
     return config;
   },
@@ -26,7 +27,7 @@ axios.interceptors.response.use(
     const { error } = e.response.data;
     store.commit('setError', { status: true, message: error });
     store.commit('setLoading', false);
-    return Promise.reject(error)
+    return Promise.reject(error);
   },
 );
 const app = createApp(App);

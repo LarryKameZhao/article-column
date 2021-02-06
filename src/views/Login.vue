@@ -31,6 +31,7 @@ import ValidateForm from '../components/ValidateForm.vue';
 import { useStore } from 'vuex';
 import { GlobalDataInterface } from '@/store';
 import { useRouter } from 'vue-router';
+import { createMessage } from '@/createMessage';
 
 export default defineComponent({
   name: 'Login',
@@ -59,8 +60,10 @@ export default defineComponent({
         store
           .dispatch('loginAndFetch', payload)
           .then(response => {
-            console.log(response);
-            router.push('/');
+            createMessage('登录成功2秒后跳转首页', 'success');
+            setTimeout(() => {
+              router.push('/');
+            }, 2000);
           })
           .catch(e => {
             console.log(e);
