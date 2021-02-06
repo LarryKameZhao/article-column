@@ -14,13 +14,14 @@ export interface GlobalDataInterface {
   columns: ColumnProps[];
   posts: PostProps[];
   user: UserProps;
+  loading: boolean;
 }
 const getAndCommit = async (
   url: string,
   mutationName: string,
   commit: Commit,
 ) => {
-  const data = await axios.get(url);
+  const { data } = await axios.get(url);
   commit(mutationName, data);
 };
 const store = createStore<GlobalDataInterface>({
@@ -30,6 +31,7 @@ const store = createStore<GlobalDataInterface>({
     user: {
       isLogin: false,
     },
+    loading: false,
   },
   mutations: {
     login(state) {
@@ -45,6 +47,9 @@ const store = createStore<GlobalDataInterface>({
     },
     fetchColumns(state, rawData) {
       state.columns = rawData.data.list;
+    },
+    setLoading: (state, status) => {
+      state.loading = status;
     },
   },
   getters: {
