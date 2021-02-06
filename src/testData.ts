@@ -15,5 +15,5 @@ export interface PostProps {
   content: string;
   image?: string;
   createdAt: string;
-  columnId: number;
+  columnId: string;
 }

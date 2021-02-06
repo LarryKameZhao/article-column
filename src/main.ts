@@ -7,17 +7,28 @@ import store from './store';
 const code = '21FDC709F2A7D980';
 axios.defaults.baseURL = 'http://apis.imooc.com/api/';
 axios.interceptors.request.use(config => {
-  store.commit('setLoading', true);
+  if (config.method === 'post') {
+    config.data = { ...config.data, icode: code };
+  }
   config.params = { ...config.params, icode: code };
+  store.commit('setLoading', true);
   return config;
 });
-axios.interceptors.response.use(config => {
-  setTimeout(() => {
-    store.commit('setLoading', false);
-  }, 200);
+axios.interceptors.response.use(
+  config => {
+    setTimeout(() => {
+      store.commit('setLoading', false);
+    }, 200);
 
-  return config;
-});
+    return config;
+  },
+  e => {
+    const { error } = e.response.data;
+    store.commit('setError', { status: true, message: error });
+    store.commit('setLoading', false);
+    return Promise.reject(error)
+  },
+);
 const app = createApp(App);
 app.use(router);
 app.use(store);
