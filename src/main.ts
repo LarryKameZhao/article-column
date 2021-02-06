@@ -7,11 +7,16 @@ import store from './store';
 const code = '21FDC709F2A7D980';
 axios.defaults.baseURL = 'http://apis.imooc.com/api/';
 axios.interceptors.request.use(config => {
+  store.commit('setLoading', true);
   config.params = { ...config.params, icode: code };
-  return config
+  return config;
 });
-axios.get(`/columns`).then(resp => {
-  console.log(resp.data);
+axios.interceptors.response.use(config => {
+  setTimeout(() => {
+    store.commit('setLoading', false);
+  }, 200);
+
+  return config;
 });
 const app = createApp(App);
 app.use(router);

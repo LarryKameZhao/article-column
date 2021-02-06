@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <global-header :user="currentUser"></global-header>
+    <loader v-if="isLoading" text="拼命加载中.." background="rgba(0,0,0,0.8)"></loader>
     <router-view></router-view>
     <footer class="text-center py-4 text-secondary bg-light mt-6">
       <small>
@@ -17,23 +18,27 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-import "bootstrap/dist/css/bootstrap.min.css";
-import GlobalHeader, { UserProps } from "./components/GlobalHeader.vue";
-import { useStore } from "vuex";
-import { GlobalDataInterface } from "./store";
+import { computed, defineComponent } from 'vue';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import GlobalHeader from './components/GlobalHeader.vue';
+import Loader from './components/Loader.vue'
+import { useStore } from 'vuex';
+import { GlobalDataInterface } from './store';
 export default defineComponent({
-  name: "App",
+  name: 'App',
   components: {
-    GlobalHeader
+    GlobalHeader,
+    Loader
   },
   setup() {
     const store = useStore<GlobalDataInterface>();
     const currentUser = computed(() => store.state.user);
+    const isLoading = computed(() => store.state.loading);
     return {
-      currentUser
+      currentUser,
+      isLoading,
     };
-  }
+  },
 });
 </script>
 
