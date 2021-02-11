@@ -1,6 +1,7 @@
 <template>
   <div class="create-post-page">
     <h4>新建文章</h4>
+    <uploader action="/upload"/>
     <validate-form @form-submit="onFormSubmit">
       <div class="mb-3">
         <label class="form-label">文章标题：</label>
@@ -34,6 +35,7 @@ import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue';
+import Uploader from '../components/Uploader.vue'
 import ValidateForm from '../components/ValidateForm.vue';
 import { PostProps, GlobalDataInterface } from '../store';
 export default defineComponent({
@@ -41,6 +43,7 @@ export default defineComponent({
   components: {
     ValidateInput,
     ValidateForm,
+    Uploader
   },
   setup() {
     const titleVal = ref('');
@@ -75,6 +78,7 @@ export default defineComponent({
       contentVal,
       contentRules,
       onFormSubmit,
+
     };
   },
 });

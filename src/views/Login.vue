@@ -59,7 +59,7 @@ export default defineComponent({
         };
         store
           .dispatch('loginAndFetch', payload)
-          .then(response => {
+          .then(() => {
             createMessage('登录成功2秒后跳转首页', 'success');
             setTimeout(() => {
               router.push('/');

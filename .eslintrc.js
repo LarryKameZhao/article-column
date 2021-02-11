@@ -17,6 +17,7 @@ module.exports = {
     quotes: 'off',
     semi: 'off',
     'space-before-function-paren': 'off',
-    "comma-dangle":["off","never"]
+    "comma-dangle":["off","never"],
+    "no-unused-expressions":"off"
   },
 };

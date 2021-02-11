@@ -1,0 +1,77 @@
+<template>
+  <div class="file-upload">
+    <button class="btn btn-primary" @click.prevent="triggerUpload">
+      <span v-if="fileStatus === 'ready'">点击上传</span>
+      <span v-else-if="fileStatus === 'success'">上传成功</span>
+      <span v-if="fileStatus === 'loading'">正在上传</span>
+    </button>
+    <input
+      type="file"
+      class="file-input d-none"
+      @change="handleFileChange"
+      ref="fileInput"
+    />
+  </div>
+</template>
+
+<script lang="ts">
+import axios from 'axios';
+import { defineComponent, ref } from 'vue';
+type UploadStatus = 'ready' | 'loading' | 'success' | 'error';
+export default defineComponent({
+  name: 'Uploader',
+  props: {
+    action: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
+    const fileInput = ref<null | HTMLInputElement>(null);
+    const fileStatus = ref<UploadStatus>('ready');
+    const triggerUpload = () => {
+      if (fileInput.value) {
+        fileInput?.value?.click();
+      }
+    };
+    const handleFileChange = (e: Event) => {
+      const currentTarget = e.target as HTMLInputElement;
+      if (currentTarget.files) {
+        fileStatus.value = 'loading';
+        const files = Array.from(currentTarget.files);
+        const formDta = new FormData();
+        console.log(files);
+        formDta.append('file', files[0]);
+        formDta.append('icode', '21FDC709F2A7D980');
+        console.log(formDta.get('file'));
+        axios
+          .post(props.action, formDta, {
+            headers: {
+              'Content-Type': 'multipart/formData',
+            },
+          })
+          .then(resp => {
+            fileStatus.value = 'success';
+            console.log(resp.data);
+          })
+          .catch(() => {
+            fileStatus.value = 'error';
+          })
+          .finally(() => {
+            if (fileInput.value) {
+              fileInput.value.value = '';
+            }
+          });
+      }
+    };
+    return {
+      fileInput,
+      triggerUpload,
+      fileStatus,
+      handleFileChange,
+    };
+  },
+});
+</script>
+
+<style scoped></style>
