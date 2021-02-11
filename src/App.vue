@@ -22,13 +22,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, watch } from 'vue';
+import { computed, defineComponent, watch } from 'vue';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import GlobalHeader from './components/GlobalHeader.vue';
 import Loader from './components/Loader.vue';
 import { useStore } from 'vuex';
 import { GlobalDataInterface } from './store';
-import axios from 'axios';
 import { createMessage } from './createMessage';
 export default defineComponent({
   name: 'App',
@@ -40,14 +39,8 @@ export default defineComponent({
     const store = useStore<GlobalDataInterface>();
     const currentUser = computed(() => store.state.user);
     const isLoading = computed(() => store.state.loading);
-    const token = computed(() => store.state.token);
     const error = computed(() => store.state.error);
-    onMounted(() => {
-      if (!currentUser.value.isLogin && token.value) {
-        axios.defaults.headers.common.Authorization = `Bearer ${token.value}`;
-        store.dispatch('fetchCurrentUser');
-      }
-    });
+
     watch(
       () => error.value.status,
       () => {

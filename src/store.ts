@@ -29,6 +29,7 @@ const getAndCommit = async (
 ) => {
   const { data } = await axios.get(url);
   commit(mutationName, data);
+  return data;
 };
 const postAndCommit = async (
   url: string,
@@ -87,19 +88,19 @@ const store = createStore<GlobalDataInterface>({
   },
   actions: {
     fetchColumns(context) {
-      getAndCommit('/columns', 'fetchColumns', context.commit);
+      return getAndCommit('/columns', 'fetchColumns', context.commit);
     },
     fetchColumn({ commit }, cid) {
-      getAndCommit(`/columns/${cid}`, 'fetchColumn', commit);
+      return getAndCommit(`/columns/${cid}`, 'fetchColumn', commit);
     },
     async fetchPosts({ commit }, cid) {
-      getAndCommit(`/columns/${cid}/posts`, 'fetchPosts', commit);
+      return getAndCommit(`/columns/${cid}/posts`, 'fetchPosts', commit);
     },
     login({ commit }, payload) {
       return postAndCommit('/user/login', 'login', commit, payload);
     },
     fetchCurrentUser({ commit }) {
-      getAndCommit(`/user/current`, 'fetchCurrentUser', commit);
+      return getAndCommit(`/user/current`, 'fetchCurrentUser', commit);
     },
     loginAndFetch({ dispatch }, loginData) {
       return dispatch('login', loginData).then(() => {

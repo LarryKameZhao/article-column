@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createApp } from 'vue';
+import { createApp, computed } from 'vue';
 import App from './App.vue';
 import { router } from './router';
 import store from './store';
@@ -7,10 +7,12 @@ import store from './store';
 const code = '21FDC709F2A7D980';
 axios.defaults.baseURL = 'http://apis.imooc.com/api/';
 axios.interceptors.request.use(config => {
-  if (config.method === 'post') {
+  config.params = { ...config.params, icode: code };
+  if (config.data instanceof FormData) {
+    config.data.append('icode', code);
+  } else {
     config.data = { ...config.data, icode: code };
   }
-  config.params = { ...config.params, icode: code };
   store.commit('setError', { status: false, message: '' });
   store.commit('setLoading', true);
   return config;
