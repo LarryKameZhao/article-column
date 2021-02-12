@@ -1,8 +1,12 @@
 import axios from 'axios';
 import { Commit, createStore } from 'vuex';
 import { ColumnProps, PostProps } from './testData';
-export { ColumnProps, PostProps } from './testData';
-
+export { ColumnProps, PostProps, ImageProps } from './testData';
+export interface ResponseType<P = {}> {
+  code: number;
+  msg: string;
+  data: P;
+}
 export interface UserProps {
   isLogin: boolean;
   nickName?: string;

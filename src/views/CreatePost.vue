@@ -1,7 +1,7 @@
 <template>
   <div class="create-post-page">
     <h4>新建文章</h4>
-    <uploader action="/upload"/>
+    <uploader action="/upload" :beforeUpload="beforeUpload" @file-uploaded="onFileUploaded" />
     <validate-form @form-submit="onFormSubmit">
       <div class="mb-3">
         <label class="form-label">文章标题：</label>
@@ -35,15 +35,21 @@ import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue';
-import Uploader from '../components/Uploader.vue'
+import Uploader from '../components/Uploader.vue';
 import ValidateForm from '../components/ValidateForm.vue';
-import { PostProps, GlobalDataInterface } from '../store';
+import {
+  PostProps,
+  GlobalDataInterface,
+  ResponseType,
+  ImageProps,
+} from '../store';
+import { createMessage } from '@/createMessage';
 export default defineComponent({
   name: 'Login',
   components: {
     ValidateInput,
     ValidateForm,
-    Uploader
+    Uploader,
   },
   setup() {
     const titleVal = ref('');
@@ -72,13 +78,24 @@ export default defineComponent({
         }
       }
     };
+    const beforeUpload = (file: File) => {
+      const isJPG = file.type === 'image/jpeg';
+      if (!isJPG) {
+        createMessage('图片只能是jpg', 'error');
+      }
+      return isJPG;
+    };
+    const onFileUploaded = (rawData: ResponseType<ImageProps>) => {
+      createMessage(`上传图片id ${rawData?.data?._id}`, 'success');
+    };
     return {
       titleRules,
       titleVal,
       contentVal,
       contentRules,
       onFormSubmit,
-
+      beforeUpload,
+      onFileUploaded
     };
   },
 });

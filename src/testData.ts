@@ -4,7 +4,7 @@ export interface ColumnProps {
   avatar?: ImageProps;
   description: string;
 }
-interface ImageProps {
+export interface ImageProps {
   _id?: string;
   url?: string;
   createdAt?: string;
